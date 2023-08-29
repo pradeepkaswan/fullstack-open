@@ -1,5 +1,39 @@
 import { useState } from 'react'
-import Header from './components/Header'
+
+const Button = ({text, onClick }) => {
+  return <button onClick={onClick}>{text}</button>
+}
+
+const StatisticLine = ({text, value}) => {
+  return (
+    <tr>
+      <td>{text}</td>
+      <td>{value}</td>
+    </tr>
+  )
+}
+
+const Statistics = ({good, neutral , bad}) => {
+  let all = good + neutral + bad;
+
+  if (all === 0) {
+    return <p>No feedback given</p>;
+  }
+  return (
+    <>
+      <table>
+        <tbody>
+          <StatisticLine text="good" value ={good} />
+          <StatisticLine text="neutral" value ={neutral} />
+          <StatisticLine text="bad" value ={bad} />
+          <StatisticLine text="all" value ={all} />
+          <StatisticLine text="average" value ={(good - bad) / all} />
+          <StatisticLine text="positive" value ={`${(good / all) * 100} %`} />
+        </tbody>
+      </table>
+    </>
+  )
+}
 
 const App = () => {
   // save clicks of each button to its own state
@@ -10,10 +44,11 @@ const App = () => {
   return (
     <div>
       <h1>give feedback</h1>
-      <button>good</button>
-      <button>neutral</button>
-      <button>bad</button>
+      <Button text="good" onClick={() => setGood(good + 1)} />
+      <Button text="neutral" onClick={() => setNeutral(neutral + 1)} />
+      <Button text="bad" onClick={() => setBad(bad + 1)} />
       <h1>statistics</h1>
+      <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   )
 }
