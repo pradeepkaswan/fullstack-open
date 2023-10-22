@@ -72,16 +72,27 @@ const App = () => {
 
 	const deletePerson = (id, name) => {
 		if (window.confirm(`Delete ${name} ?`)) {
-			personService.remove(id).then(() => {
-				setPersons(persons.filter((person) => person.id !== id));
-			});
-			setMessage({
-				content: `${name} was deleted from the phonebook.`,
-				type: 'success',
-			});
-			setTimeout(() => {
-				setMessage(null);
-			}, 5000);
+			personService
+				.remove(id)
+				.then(() => {
+					setPersons(persons.filter((person) => person.id !== id));
+					setMessage({
+						content: `${name} was deleted from the phonebook.`,
+						type: 'success',
+					});
+					setTimeout(() => {
+						setMessage(null);
+					}, 5000);
+				})
+				.catch((error) => {
+					setMessage({
+						content: `Information of ${name} has already been removed from server`,
+						type: 'error',
+					});
+					setTimeout(() => {
+						setMessage(null);
+					}, 5000);
+				});
 		}
 	};
 
