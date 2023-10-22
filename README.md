@@ -9,6 +9,11 @@ part1
   unicafe
   anecdotes
 part2
-  phonebook
+  phonebook-frontend
   countries
+part3
+  phonebook-backend
+part9
+  courseinfo
+  patientor-backend
 </pre>
