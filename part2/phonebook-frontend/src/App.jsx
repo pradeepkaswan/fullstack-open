@@ -3,12 +3,14 @@ import personService from './services/persons';
 import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';
+import Notification from './components/Notification';
 
 const App = () => {
 	const [persons, setPersons] = useState([]);
 	const [newName, setNewName] = useState('');
 	const [newNumber, setNewNumber] = useState('');
 	const [searchTerm, setSearchTerm] = useState('');
+	const [message, setMessage] = useState(null);
 
 	useEffect(() => {
 		personService.getAll().then((initialPersons) => {
@@ -38,6 +40,13 @@ const App = () => {
 						);
 						setNewName('');
 						setNewNumber('');
+						setMessage({
+							content: `${existingPerson.name}'s number was updated.`,
+							type: 'success',
+						});
+						setTimeout(() => {
+							setMessage(null);
+						}, 5000);
 					});
 			}
 		} else {
@@ -50,6 +59,13 @@ const App = () => {
 				setPersons(persons.concat(returnedPerson));
 				setNewName('');
 				setNewNumber('');
+				setMessage({
+					content: `Added ${returnedPerson.name}`,
+					type: 'success',
+				});
+				setTimeout(() => {
+					setMessage(null);
+				}, 5000);
 			});
 		}
 	};
@@ -59,6 +75,13 @@ const App = () => {
 			personService.remove(id).then(() => {
 				setPersons(persons.filter((person) => person.id !== id));
 			});
+			setMessage({
+				content: `${name} was deleted from the phonebook.`,
+				type: 'success',
+			});
+			setTimeout(() => {
+				setMessage(null);
+			}, 5000);
 		}
 	};
 
@@ -81,6 +104,7 @@ const App = () => {
 	return (
 		<div>
 			<h2>Phonebook</h2>
+			<Notification message={message} />
 			<Filter
 				searchTerm={searchTerm}
 				handleSearchChange={handleSearchChange}
