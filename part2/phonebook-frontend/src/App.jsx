@@ -18,9 +18,29 @@ const App = () => {
 
 	const addPerson = (event) => {
 		event.preventDefault();
-		const currentName = persons.filter((person) => person.name === newName);
+		const existingPerson = persons.find((person) => person.name === newName);
 
-		if (currentName.length === 0) {
+		if (existingPerson) {
+			if (
+				window.confirm(
+					`${newName} is already added to phonebook, replace the old number with a new one?`,
+				)
+			) {
+				const updatedPerson = { ...existingPerson, number: newNumber };
+
+				personService
+					.update(existingPerson.id, updatedPerson)
+					.then((returnedPerson) => {
+						setPersons(
+							persons.map((person) =>
+								person.id !== existingPerson.id ? person : returnedPerson,
+							),
+						);
+						setNewName('');
+						setNewNumber('');
+					});
+			}
+		} else {
 			const personObject = {
 				name: newName,
 				number: newNumber,
@@ -31,8 +51,14 @@ const App = () => {
 				setNewName('');
 				setNewNumber('');
 			});
-		} else {
-			alert(`${newName} is already added to phonebook`);
+		}
+	};
+
+	const deletePerson = (id, name) => {
+		if (window.confirm(`Delete ${name} ?`)) {
+			personService.remove(id).then(() => {
+				setPersons(persons.filter((person) => person.id !== id));
+			});
 		}
 	};
 
@@ -68,7 +94,10 @@ const App = () => {
 				handleNumberChange={handleNumberChange}
 			/>
 			<h2>Numbers</h2>
-			<Persons persons={filteredPersons} />
+			<Persons
+				persons={filteredPersons}
+				deletePerson={deletePerson}
+			/>
 		</div>
 	);
 };
