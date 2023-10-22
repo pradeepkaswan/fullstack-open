@@ -5,7 +5,10 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "node index.js",
-		"dev": "nodemon index.js"
+		"dev": "nodemon index.js",
+		"deploy": "fly deploy",
+		"deploy:full": "npm run build:ui && npm run deploy",
+		"logs:prod": "fly logs"
 	},
 	"author": "Pradeep Kaswan",
 	"license": "ISC",
