@@ -47,7 +47,13 @@ const App = () => {
 						setTimeout(() => {
 							setMessage(null);
 						}, 5000);
-					});
+					})
+					.catch((error) =>
+						setMessage({
+							content: `${error.response.data.error}`,
+							type: 'error',
+						}),
+					);
 			}
 		} else {
 			const personObject = {
@@ -55,18 +61,26 @@ const App = () => {
 				number: newNumber,
 			};
 
-			personService.create(personObject).then((returnedPerson) => {
-				setPersons(persons.concat(returnedPerson));
-				setNewName('');
-				setNewNumber('');
-				setMessage({
-					content: `Added ${returnedPerson.name}`,
-					type: 'success',
-				});
-				setTimeout(() => {
-					setMessage(null);
-				}, 5000);
-			});
+			personService
+				.create(personObject)
+				.then((returnedPerson) => {
+					setPersons(persons.concat(returnedPerson));
+					setNewName('');
+					setNewNumber('');
+					setMessage({
+						content: `Added ${returnedPerson.name}`,
+						type: 'success',
+					});
+					setTimeout(() => {
+						setMessage(null);
+					}, 5000);
+				})
+				.catch((error) =>
+					setMessage({
+						content: `${error.response.data.error}`,
+						type: 'error',
+					}),
+				);
 		}
 	};
 
@@ -77,7 +91,7 @@ const App = () => {
 				.then(() => {
 					setPersons(persons.filter((person) => person.id !== id));
 					setMessage({
-						content: `${name} was deleted from the phonebook.`,
+						content: `Successfully deleted ${name} from the phonebook.`,
 						type: 'success',
 					});
 					setTimeout(() => {
