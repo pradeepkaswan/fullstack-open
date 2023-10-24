@@ -1,11 +1,13 @@
 {
 	"name": "bloglist-backend",
 	"version": "1.0.0",
-	"description": "",
+	"description": "This web application allows users to save information about interesting blogs they have stumbled across on the internet.",
 	"main": "index.js",
 	"scripts": {
 		"start": "node index.js",
-		"dev": "nodemon index.js"
+		"dev": "nodemon index.js",
+		"lint": "eslint .",
+		"test": "jest --verbose"
 	},
 	"author": "Pradeep Kaswan",
 	"license": "ISC",
@@ -16,6 +18,11 @@
 		"mongoose": "^7.6.3"
 	},
 	"devDependencies": {
+		"eslint": "^8.52.0",
+		"jest": "^29.7.0",
 		"nodemon": "^3.0.1"
+	},
+	"jest": {
+		"testEnvironment": "node"
 	}
 }
