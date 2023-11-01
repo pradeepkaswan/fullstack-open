@@ -1,4 +1,4 @@
-# Full Stack open 2023
+# Full Stack Open 2023
 
 This repo contains my exercises to the course.
 
