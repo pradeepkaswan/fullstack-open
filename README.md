@@ -13,6 +13,12 @@ part2
   countries
 part3
   phonebook-backend
+part4
+  bloglist-backend
+part5
+  bloglist-frontend
+part6
+part7
 part9
   courseinfo
   patientor-backend
